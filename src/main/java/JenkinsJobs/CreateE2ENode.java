@@ -1,0 +1,219 @@
+package JenkinsJobs;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Scanner;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+
+public class CreateE2ENode {
+	
+	static String sheetName = "Nodes";
+
+	static String filePath = "C:\\Users\\VS065203\\OneDrive - Cerner Corporation\\Desktop\\CentralizedJenkins\\JobCreation\\CJ_AllData.xlsx";
+
+	static String username = null;
+
+	static String password = null;
+
+	static Workbook wb = null;
+
+	static Scanner input = new Scanner(System.in);
+
+	static String JenkinsLink = "http://ipta01.ip.devcerner.net:8080/script";
+
+	public static void main(String[] args) throws EncryptedDocumentException, IOException {
+
+		if (filePath == null) {
+			System.out.print("Enter the Excel Path : ");
+
+			filePath = input.nextLine();
+
+			System.out.println();
+		}
+		if (sheetName == null) {
+			System.out.print("Enter the SheetName : ");
+
+			sheetName = input.nextLine();
+
+			System.out.println();
+		}
+
+		if (JenkinsLink == null) {
+			System.out.print("Enter the JenkinsLink : ");
+
+			sheetName = input.nextLine();
+
+			System.out.println();
+		}
+
+		FileInputStream inputFile = new FileInputStream(filePath);
+
+		wb = WorkbookFactory.create(inputFile);
+
+		int LastRow = wb.getSheet(sheetName).getLastRowNum();
+
+		System.out.print("Total Number of records in excel : " + LastRow + "\n\n");
+
+		/*
+		 * WebDriverManager.chromedriver().setup();
+		 * 
+		 * WebDriver driver = new ChromeDriver();
+		 * 
+		 * String currentWindow = driver.getWindowHandle();
+		 * 
+		 * driver.switchTo().window(currentWindow);
+		 * 
+		 * driver.manage().window().maximize(); driver.get(JenkinsLink);
+		 * 
+		 * LoginToJenkins(driver,input);
+		 * 
+		 * WebDriverWait wait = new WebDriverWait(driver, 10000);
+		 * 
+		 * driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+		 */
+
+		try {
+			for (int i = 1; i <= LastRow; i++) {
+
+				String NodeName = GetNodeNameFromExcel(wb, sheetName, i, 0);
+				Thread.sleep(2000);
+				String NodeScript = "import jenkins.model.*\r\n" + "import hudson.model.*\r\n"
+						+ "import jenkins.model.*\r\n" + "import hudson.model.*\r\n" + "import hudson.slaves.*\r\n"
+						+ "import hudson.slaves.EnvironmentVariablesNodeProperty.Entry\r\n" + "\r\n"
+						+ "List<Entry> env = new ArrayList<Entry>();\r\n"
+						+ "env.add(new Entry(\"AssociateID\",\"MP023168\"))\r\n"
+						+ "env.add(new Entry(\"VDIP\",\"\"))\r\n" + "env.add(new Entry(\"user\",\".\\\\cerner\"))\r\n"
+						+ "env.add(new Entry(\"Password\",\"cerner\"))\r\n"
+						+ "EnvironmentVariablesNodeProperty envPro = new EnvironmentVariablesNodeProperty(env);\r\n"
+						+ "  \r\n" + "list = new LinkedList()\r\n" + "list.add(envPro)\r\n" + "\r\n"
+						+ "Jenkins.instance.addNode(new DumbSlave(\"" + NodeName + "\", \"" + NodeName
+						+ "\", \"C:\\\\Jenkins\", \"1\", Node.Mode.NORMAL, \"" + NodeName
+						+ "\", new JNLPLauncher(\"\",\"-Xmx256m\"), new RetentionStrategy.Always(), list))"
+						+ "\r\n"
+						+ "return \"Node has been "+NodeName+" created successfully.\"";
+				
+				String EPE2ENodeScript="import jenkins.model.*\r\n"
+						+ "import hudson.model.*\r\n"
+						+ "import jenkins.model.*\r\n"
+						+ "import hudson.model.*\r\n"
+						+ "import hudson.slaves.*\r\n"
+						+ "import hudson.slaves.EnvironmentVariablesNodeProperty.Entry\r\n"
+						+ "\r\n"
+						+ "List<Entry> env = new ArrayList<Entry>();\r\n"
+						+ "env.add(new Entry(\"AssociateID\",\".\\\\cerner\"))\r\n"
+						+ "env.add(new Entry(\"JPassword\",\"release\"))\r\n"
+						+ "env.add(new Entry(\"JUserID\",\"ReleaseAdmin]\"))\r\n"
+						+ "env.add(new Entry(\"LocalPath\",\"C:\\\\Git\\\\\"))\r\n"
+						+ "env.add(new Entry(\"NodePath\",\"http://ipta01.ip.devcerner.net:8080/computer/"+NodeName+"/\"))\r\n"
+						+ "env.add(new Entry(\"Password\",\"cerner\"))\r\n"
+						+ "env.add(new Entry(\"VDIP\",\"\"))\r\n"
+						+ "EnvironmentVariablesNodeProperty envPro = new EnvironmentVariablesNodeProperty(env);\r\n"
+						+ "  \r\n"
+						+ "list = new LinkedList()\r\n"
+						+ "list.add(envPro)\r\n"
+						+ "\r\n"
+						+ "Jenkins.instance.addNode(new DumbSlave(\"E2E_"+NodeName+"\", \"E2E_"+NodeName+"\", \"C:\\\\Jenkins\", \"1\", Node.Mode.NORMAL, \"E2E_"+NodeName+"\", new JNLPLauncher(\"\",\"-Xmx256m\"), new RetentionStrategy.Always(), list))"
+						+ "\r\n"
+						+ "return \"Node has been E2E_"+NodeName+" created successfully.\"";
+				
+				String TSE2ENodeScript="import jenkins.model.*\r\n"
+						+ "import hudson.model.*\r\n"
+						+ "import jenkins.model.*\r\n"
+						+ "import hudson.model.*\r\n"
+						+ "import hudson.slaves.*\r\n"
+						+ "import hudson.slaves.EnvironmentVariablesNodeProperty.Entry\r\n"
+						+ "\r\n"
+						+ "List<Entry> env = new ArrayList<Entry>();\r\n"
+						+ "env.add(new Entry(\"AssociateID\",\".\\\\cerner\"))\r\n"
+						+ "env.add(new Entry(\"JPassword\",\"release[http://win10t-00528.northamerica.cerner.net:8989/AUTORESTSERVICE/rest/GetFile/quickPass.jar]\"))\r\n"
+						+ "env.add(new Entry(\"JUserID\",\"ReleaseAdmin[http://win10t-00528.northamerica.cerner.net:8989/AUTORESTSERVICE/rest/GetFile/LogJira.jar]\"))\r\n"
+						+ "env.add(new Entry(\"LocalPath\",\"C:\\\\Git\\\\\"))\r\n"
+						+ "env.add(new Entry(\"NodePath\",\"http://ipta01.ip.devcerner.net:8080/computer/"+NodeName+"/\"))\r\n"
+						+ "env.add(new Entry(\"Password\",\"cerner\"))\r\n"
+						+ "env.add(new Entry(\"VDIP\",\"\"))\r\n"
+						+ "EnvironmentVariablesNodeProperty envPro = new EnvironmentVariablesNodeProperty(env);\r\n"
+						+ "  \r\n"
+						+ "list = new LinkedList()\r\n"
+						+ "list.add(envPro)\r\n"
+						+ "\r\n"
+						+ "Jenkins.instance.addNode(new DumbSlave(\"E2E_"+NodeName+"\", \"E2E_"+NodeName+"\", \"C:\\\\Jenkins\", \"1\", Node.Mode.NORMAL, \"E2E_"+NodeName+"\", new JNLPLauncher(\"\",\"-Xmx256m\"), new RetentionStrategy.Always(), list))"
+						+ "\r\n"
+						+ "return \"Node has been E2E_"+NodeName+" created successfully.\"";
+				 System.out.println(EPE2ENodeScript);
+				 System.out.print("\n=========================================================================================\n");
+			}
+
+			input.close();
+
+		} catch (Exception e) {
+//	 	    	driver.quit();
+			KillChromeDriver();
+			e.printStackTrace();
+
+		}
+//	 	   driver.quit();
+		KillChromeDriver();
+
+	}
+
+	public static void KillChromeDriver() {
+		try {
+			System.out.println("Kill Chrome Driver");
+
+			Runtime.getRuntime().exec("taskkill /f /im chromedriver.exe");
+
+			Thread.sleep(2000L);
+
+			Runtime.getRuntime().exec("taskkill /f /im ruby.exe");
+
+			Thread.sleep(1000L);
+
+			System.exit(0);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+	}
+
+	public static void LoginToJenkins(WebDriver driver, Scanner in) {
+		try {
+			if (driver.findElement(By.xpath("//a[contains(text(),'Log in')]")).isDisplayed()) {
+
+				driver.findElement(By.xpath("//a[contains(text(),'Log in')]")).click();
+			}
+		} catch (NoSuchElementException noSuchElementException) {
+		}
+		try {
+			if (driver.findElement(By.xpath("//input[@id='j_username']")).isDisplayed()) {
+
+				System.out.println("Please Enter the UserName : ");
+
+				String userName = in.nextLine();
+
+				driver.findElement(By.xpath("//input[@id='j_username']")).sendKeys(new CharSequence[] { userName });
+
+				System.out.println("Please Enter the Password : ");
+
+				String password = in.nextLine();
+
+				driver.findElement(By.xpath("//input[@placeholder='Password']"))
+						.sendKeys(new CharSequence[] { password });
+
+				driver.findElement(By.xpath("//div[@class='Checkbox-indicator']")).click();
+
+				driver.findElement(By.xpath("//input[@name='Submit']")).click();
+			}
+		} catch (NoSuchElementException noSuchElementException) {
+		}
+	}
+
+	public static String GetNodeNameFromExcel(Workbook wb, String Sheet, int Row, int col) {
+		return wb.getSheet(sheetName).getRow(Row).getCell(col).toString();
+	}
+}
