@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -48,11 +49,11 @@ public class GetTCLinksFromRQM {
 
 	  public void LoginToRQM(WebDriver driver) throws IOException, InterruptedException {
 			  
-		  	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		  	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		    
 		  	driver.get("https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewUserHome");
 		    
-		    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 		    
 		    System.out.print("\nEnter the User Name : ");
 		    
@@ -76,7 +77,7 @@ public class GetTCLinksFromRQM {
 		    
 		    driver.findElement(By.xpath("//button[contains(text(),'Log In')]")).click();
 		    
-		    driver.manage().timeouts().implicitlyWait(30L, TimeUnit.SECONDS);
+		    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
 		    
 		    System.out.println();
 		    
@@ -89,9 +90,9 @@ public class GetTCLinksFromRQM {
 	 
 	  public String getTestCaseLink(WebDriver driver, String TestCaseName) throws InterruptedException, IOException {
 		  
-		  	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		  	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		 
-		  	WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		  	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 			  
 			JavascriptExecutor executor = (JavascriptExecutor)driver;
 			
@@ -117,7 +118,7 @@ public class GetTCLinksFromRQM {
 		    
 		    WebElement TestCase = null;
 		    
-		    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
+		    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));	
 		  
 		    try {
 		    	
@@ -175,7 +176,7 @@ public class GetTCLinksFromRQM {
 	    
 	    chromeDriver.manage().window().maximize();
 	    
-	    chromeDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	    
 	    
 	    try {
@@ -188,7 +189,7 @@ public class GetTCLinksFromRQM {
 	      
 	    	System.out.print("\n=========================================================================================\n");
 	    	
-	    	WebDriverWait wait = new WebDriverWait(chromeDriver, 25000L);
+	    	WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(25000L));
   	      
 	    	for (int i = startPoint; i <= LastRow; i++) {
 
@@ -344,9 +345,9 @@ public class GetTCLinksFromRQM {
 
 		  public void LogOutRQM(WebDriver driver) throws IOException, InterruptedException {
 				  
-				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+				driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 				  
-			    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+			    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 			    
 			    Actions builder = new Actions(driver);
 			    

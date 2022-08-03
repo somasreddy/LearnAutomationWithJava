@@ -47,11 +47,14 @@ public class JenkinsPassedLogs {
 		  chromePrefs.put("download.default_directory", downloadFilepath);
 		  chromePrefs.put("plugins.plugins_disabled", new String[]{"Adobe Flash Player", "Chrome PDF Viewer"});
 		  options.setExperimentalOption("prefs", chromePrefs);
-		  DesiredCapabilities cap = DesiredCapabilities.chrome();
-		  cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-		  cap.setCapability(ChromeOptions.CAPABILITY, options);
+		  options.setAcceptInsecureCerts(true);
+			/*
+			 * DesiredCapabilities cap = DesiredCapabilities.chrome();
+			 * cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+			 * cap.setCapability(ChromeOptions.CAPABILITY, options);
+			 */
 		  JenkinsPassedLogs jps= new JenkinsPassedLogs();
-		  WebDriver driver = new ChromeDriver(cap);
+		  WebDriver driver = new ChromeDriver(options);
 //		  sendCommandForDownloadChromeHeadLess((HttpCommandExecutor)((RemoteWebDriver) driver).getCommandExecutor(),((RemoteWebDriver) driver).getSessionId(),downloadFilepath);
 //          WebDriver driver = new ChromeDriver(cap);
 	  	  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -15,10 +15,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -88,7 +88,7 @@ public class RQMTestCaseLinkUpdate {
 	    
 	    chromeDriver.manage().window().maximize();
 	    
-	    chromeDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	    chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	    
 	    try {
 	    	
@@ -100,7 +100,7 @@ public class RQMTestCaseLinkUpdate {
 	      
 	      System.out.print("\n=========================================================================================\n");
 	      
-	      WebDriverWait wait = new WebDriverWait(chromeDriver, 25000L);
+	      WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(25000L));
 	      	      
 	      for (int i = startPoint; i <= LastRow; i++) {
 
@@ -186,7 +186,7 @@ public class RQMTestCaseLinkUpdate {
 	  
 	public String updateScriptStatus(WebDriver driver,String tcName,String tcLink, int lineNum) throws HeadlessException, UnsupportedFlavorException, IOException, InterruptedException {
 		  
-		  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		  driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		  
 		  String scriptPath=getTestScriptPath(driver,tcName,tcLink);
 		  
@@ -288,9 +288,9 @@ public class RQMTestCaseLinkUpdate {
 	  
 	  public String getTestScriptPath(WebDriver driver, String TCName,String testCaseLink) throws HeadlessException, UnsupportedFlavorException, IOException, InterruptedException {
 		  
-		  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		  driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		  
-		  WebDriverWait wait = new WebDriverWait(driver, 25000);
+		  WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000));
 		  
 		  String testScriptPath="Script of Type TestPlant-Eggplant is not found with the given testcase name: "+TCName;
 		  
@@ -366,9 +366,9 @@ public class RQMTestCaseLinkUpdate {
 	  
 	  public String getTestCaseLink(WebDriver driver, String TestCaseName) throws InterruptedException, IOException {
 		  
-		  	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		  	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		 
-		  	WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		  	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 			  
 			JavascriptExecutor executor = (JavascriptExecutor)driver;
 			
@@ -394,7 +394,7 @@ public class RQMTestCaseLinkUpdate {
 		    
 		    WebElement TestCase = null;
 		    
-		    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
+		    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));	
 		  
 		    try {
 		    	
@@ -466,11 +466,11 @@ public class RQMTestCaseLinkUpdate {
 	  
 	  public void LoginToRQM(WebDriver driver) throws IOException, InterruptedException {
 		  
-		  	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		  	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		    
 		  	driver.get("https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewUserHome");
 		    
-		    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 		    
 		    System.out.print("\nEnter the User Name : ");
 		    
@@ -482,9 +482,9 @@ public class RQMTestCaseLinkUpdate {
 		    
 		    Console console = System.console();
 		    
-		    String password="Soma@cer!";
+//		    String password="Soma@cer!";
 		    
-//		    char[] password = console.readPassword("Enter your password :"); 
+		    char[] password = console.readPassword("Enter your password :"); 
 
 		    WebElement pswrdTxtBx = (WebElement)wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='j_password']")));
 
@@ -494,7 +494,7 @@ public class RQMTestCaseLinkUpdate {
 		    
 		    driver.findElement(By.xpath("//button[contains(text(),'Log In')]")).click();
 		    
-		    driver.manage().timeouts().implicitlyWait(30L, TimeUnit.SECONDS);
+		    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
 		    
 		    System.out.println();
 		    
@@ -503,13 +503,14 @@ public class RQMTestCaseLinkUpdate {
 		    System.out.println("SuccessFully Logged in to RQM ");
 		    
 		    System.out.println();
-		  }
+		    
+		    }
 	  
 	  public void LogOutRQM(WebDriver driver) throws IOException, InterruptedException {
 		  
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		  
-	    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 	    
 	    Actions builder = new Actions(driver);
 	    

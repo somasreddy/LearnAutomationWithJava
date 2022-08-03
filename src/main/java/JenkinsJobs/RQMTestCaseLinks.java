@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +45,7 @@ public class RQMTestCaseLinks {
 		  
 		    driver.get("https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewUserHome");
 		    
-		    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 		    
 		    System.out.print("\nEnter the User Name : ");
 		    
@@ -123,7 +124,7 @@ public class RQMTestCaseLinks {
 	      
 	      System.out.print("\n=========================================================================================\n");
 	      
-	      WebDriverWait wait = new WebDriverWait(chromeDriver, 25000L);
+	      WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(25000L));
 	      	      
 	      for (int i = startPoint; i <= LastRow; i++) {
 	    	  
@@ -173,7 +174,7 @@ public class RQMTestCaseLinks {
 	  
 	  public String getTestCaseLink(WebDriver driver, String TestCaseName) throws InterruptedException, IOException {
 		 
-		  	WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		  	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 		  		 
 		  	WebElement nameTxtBox = (WebElement)wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='name' and @type='text']")));
 		    
@@ -267,7 +268,7 @@ public class RQMTestCaseLinks {
 
 	  
 	  public void LogOutRQM(WebDriver driver) throws IOException, InterruptedException {
-	    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 	    
 	    Actions builder = new Actions(driver);
 	    

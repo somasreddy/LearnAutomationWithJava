@@ -11,19 +11,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -37,7 +35,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -45,8 +42,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class JenkinsPassedLogs {
 	static String Jenkins_Link = "http://w1752330.northamerica.cerner.net:8080/view/1501DEPM%20ICU/";
@@ -74,8 +69,8 @@ public class JenkinsPassedLogs {
 //		  options.addArguments("--headless");
 		options.addArguments("--disable-gpu");
 		options.setExperimentalOption("prefs", chromePrefs);
-		DesiredCapabilities cap = DesiredCapabilities.chrome();
-		cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+		ChromeOptions cap = new ChromeOptions();//DesiredCapabilities.chrome();
+		cap.setAcceptInsecureCerts(true);//cap.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 		cap.setCapability(ChromeOptions.CAPABILITY, options);
 		JenkinsPassedLogs jps = new JenkinsPassedLogs();
 		WebDriver driver = new ChromeDriver(options);
@@ -83,7 +78,7 @@ public class JenkinsPassedLogs {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		driver.get(Jenkins_Link);
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 		driver.findElement(By.xpath("//tr[1]/th[4]/a")).click();
 		driver.findElement(By.xpath("//th[4]/a/span")).isDisplayed();
 		List<WebElement> lst = driver.findElements(By.xpath("//tbody/tr[@class=' job-status-blue']/td[4]"));

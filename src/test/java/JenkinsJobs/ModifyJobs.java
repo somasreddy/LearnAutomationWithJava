@@ -1,10 +1,10 @@
 package JenkinsJobs;
 
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,7 +14,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -28,8 +27,8 @@ public class ModifyJobs {
 		    WebDriver chromeDriver = new ChromeDriver();
 		    chromeDriver.navigate().to(Jenkins_Link);
 		    chromeDriver.manage().window().maximize();
-		    chromeDriver.manage().timeouts().implicitlyWait(5L, TimeUnit.SECONDS);
-		    WebDriverWait wait = new WebDriverWait(chromeDriver, 10000L);
+		    chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		    WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(1000));
 		    try {
 		      if (chromeDriver.findElement(By.xpath("//a[contains(text(),'Log in')]")).isDisplayed()) {
 		        chromeDriver.findElement(By.xpath("//a[contains(text(),'Log in')]")).click();
@@ -66,7 +65,7 @@ public class ModifyJobs {
 		        String childWindow = (String)itr.next();
 		        if (!mainWindow.equals(childWindow)) {
 		          chromeDriver.switchTo().window(childWindow);
-		          chromeDriver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+		          chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 		          JavascriptExecutor jse = (JavascriptExecutor)chromeDriver;
 		          chromeDriver.findElement(By.xpath("//a[.='Configure']")).click();
 		          jse.executeScript("window.scrollBy(0,2000)", new Object[0]);
@@ -79,7 +78,7 @@ public class ModifyJobs {
 		          if (textFinder) {
 		            WebElement saveButton = chromeDriver.findElement(By.xpath("//span/button[.='Save']"));
 		            saveButton.click();
-		            chromeDriver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+		            chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 		            chromeDriver.close();
 		            continue;
 		          } 
@@ -104,7 +103,7 @@ public class ModifyJobs {
 		          applyButton.click();
 		          WebElement saveButton = chromeDriver.findElement(By.xpath("//span/button[.='Save']"));
 		          saveButton.click();
-		          chromeDriver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+		          chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 		          chromeDriver.close();
 		        } 
 		      } 

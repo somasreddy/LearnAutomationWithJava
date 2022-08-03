@@ -1,10 +1,10 @@
 package JenkinsJobs;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -14,7 +14,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -45,9 +44,9 @@ public class ConnectToCitrix {
 			
 		options.setExperimentalOption("prefs", prefs);
 		
-		DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+		//DesiredCapabilities capabilities = DesiredCapabilities.chrome();
 		    
-		capabilities.setCapability("chromeOptions", options);
+		//capabilities.setCapability("chromeOptions", options);
 		
 		WebDriverManager.chromedriver().setup();
 		WebDriverManager.firefoxdriver().setup();
@@ -55,7 +54,7 @@ public class ConnectToCitrix {
 		driver= new ChromeDriver(options);
 //		driver = new FirefoxDriver();
 		
-		wait = new WebDriverWait(driver,15);
+		wait = new WebDriverWait(driver,Duration.ofSeconds(15));
 		
 		String currentWindow = driver.getWindowHandle();
 	    
@@ -63,7 +62,7 @@ public class ConnectToCitrix {
 	    
 	    driver.manage().window().maximize();
 	    
-	    driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	
 		try {
 			ctc.ConnectCitrix(driver, url, "sp046767", "Cerner*5");	

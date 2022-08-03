@@ -1,5 +1,6 @@
 package JenkinsJobs;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,11 +17,11 @@ public class Login {
 	public static void main(String[] args) throws InterruptedException {
 		System.setProperty("webdriver.chrome.driver", "./Exe/chromedriver.exe ");
 		WebDriver driver=new ChromeDriver();
-		WebDriverWait wait=new WebDriverWait(driver,100);
+		WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(100));
 		driver.manage().window().maximize();
 		Actions actions= new Actions(driver);
 		driver.get("https://jazz.cerner.com:9443/qm/web/console/");
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 		driver.findElement(By.xpath("//input[@name='j_username']")).sendKeys("VS065203");
 		driver.findElement(By.xpath("//input[@name='j_password']")).sendKeys("Cerner1290");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();

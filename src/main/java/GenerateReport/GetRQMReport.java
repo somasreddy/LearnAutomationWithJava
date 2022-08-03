@@ -5,12 +5,12 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
@@ -25,7 +25,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -72,14 +71,15 @@ public class GetRQMReport {
 		options.addArguments(new String[] { "--headless" });
 		options.addArguments(new String[] { "--disable-gpu" });
 		options.setExperimentalOption("prefs", chromePrefs);
-		DesiredCapabilities cap = DesiredCapabilities.chrome();
+		ChromeOptions cap=new ChromeOptions();
+//		DesiredCapabilities cap = DesiredCapabilities.chrome();
 		cap.setCapability("acceptSslCerts", true);
 		cap.setCapability("goog:chromeOptions", options);
 		ChromeDriver chromeDriver = new ChromeDriver(options);
 		String currentWindow = chromeDriver.getWindowHandle();
 		chromeDriver.switchTo().window(currentWindow);
 		chromeDriver.manage().window().maximize();
-		WebDriverWait wait = new WebDriverWait((WebDriver)chromeDriver, 60000L);
+		WebDriverWait wait = new WebDriverWait((WebDriver)chromeDriver, Duration.ofSeconds(6000L));
 		GetRQMReport gRR = new GetRQMReport();
 		gRR.loginToRQM((WebDriver)chromeDriver, username, password);
 		gRR.navigateToFilterView((WebDriver)chromeDriver);
@@ -151,7 +151,7 @@ public class GetRQMReport {
 	}
 
 	public void navigateToFilterView(WebDriver driver) {
-		WebDriverWait wait = new WebDriverWait(driver, 30000L);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3000L));
 		WebElement testPoint = (WebElement)wait.until((Function)ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(.,'Total:')]/preceding-sibling::div[contains(.,'Progress')]/following-sibling::div/../..")));
 		testPoint.click();
 		WebElement selectedTP = (WebElement)wait.until((Function)ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(),'In any test plan')]/../../following-sibling::tr/td/span/div[@class='dijit dijitReset dijitInline dijitCheckBox dijitCheckBoxChecked dijitChecked']")));
@@ -159,7 +159,7 @@ public class GetRQMReport {
 	}
 
 	public String searchAndSelectTestPlan(WebDriver driver, String testPlanName) {
-		WebDriverWait wait = new WebDriverWait(driver, 30000L);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3000L));
 		WebElement filterSearchTB = null;
 		try {
 			filterSearchTB = driver.findElement(By.xpath("//span[@class='filter-area filter-area-inline-selector']/input[@aria-label='This is Test Plans table: filter text input']|//span/input[@title='Type Filter Text or ID']"));
@@ -192,16 +192,16 @@ public class GetRQMReport {
 	}
 
 	public void loginToRQM(WebDriver driver, String username, String password) throws IOException, InterruptedException {
-		driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10L));
 		driver.get("https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewTestPlans");
-		WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 		WebElement usernameTxtBx = (WebElement)wait.until((Function)ExpectedConditions.elementToBeClickable(By.cssSelector("input[id*='userId'][name*='username']")));
 		usernameTxtBx.sendKeys(new CharSequence[] { username });
 		WebElement pswrdTxtBx = (WebElement)wait.until((Function)ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='j_password']")));
 		pswrdTxtBx.sendKeys(new CharSequence[] { new String(password) });
 		driver.findElement(By.name("rememberUserId")).click();
 		driver.findElement(By.xpath("//button[contains(text(),'Log In')]")).click();
-		driver.manage().timeouts().implicitlyWait(30L, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
 		System.out.println();
 		Thread.sleep(10000L);
 		System.out.println("SuccessFully Logged in to RQM ");
@@ -209,8 +209,8 @@ public class GetRQMReport {
 	}
 
 	public void LogOutRQM(WebDriver driver) throws IOException, InterruptedException {
-		driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
-		WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10L));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 		Actions builder = new Actions(driver);
 		System.out.println("Logging Out...");
 		Thread.sleep(5000L);

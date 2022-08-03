@@ -3,10 +3,10 @@ package RQMREPORT;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -56,7 +56,7 @@ public class GenerateRQMReport {
 	}
 
 	public void navigateToFilterView(WebDriver driver) {
-		WebDriverWait wait = new WebDriverWait(driver, 30000L);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30000L));
 		WebElement testPoint = (WebElement)wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(.,'Total:')]/preceding-sibling::div[contains(.,'Progress')]/following-sibling::div/../..")));
 		testPoint.click();
 		WebElement selectedTP = (WebElement)wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(text(),'In any test plan')]/../../following-sibling::tr/td/span/div[@class='dijit dijitReset dijitInline dijitCheckBox dijitCheckBoxChecked dijitChecked']")));
@@ -64,7 +64,7 @@ public class GenerateRQMReport {
 	}
 
 	public String searchAndSelectTestPlan(WebDriver driver, String testPlanName) {
-		WebDriverWait wait = new WebDriverWait(driver, 30000L);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30000L));
 		WebElement filterSearchTB = null;
 		try {
 			filterSearchTB = driver.findElement(By.xpath("//span[@class='filter-area filter-area-inline-selector']/input[@aria-label='This is Test Plans table: filter text input']|//span/input[@title='Type Filter Text or ID']"));
@@ -98,11 +98,11 @@ public class GenerateRQMReport {
 
 	public void loginToRQM(WebDriver driver, String username, String password) throws IOException, InterruptedException {
 		
-		driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10L));
 		
 		driver.get("https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewTestPlans&updateAction=clear-filter-selection");
 		
-		WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 		
 		WebElement usernameTxtBx = (WebElement)wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("//input[@name='j_username']")));
 		
@@ -116,7 +116,7 @@ public class GenerateRQMReport {
 		
 		driver.findElement(By.xpath("//button[contains(text(),'Log In')]")).click();
 		
-		driver.manage().timeouts().implicitlyWait(30L, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
 		
 		System.out.println();
 		
@@ -129,9 +129,9 @@ public class GenerateRQMReport {
 
 	public void LogOutRQM(WebDriver driver) throws IOException, InterruptedException {
 		
-		driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10L));
 		
-		WebDriverWait wait = new WebDriverWait(driver, 25000L);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 		
 		Actions builder = new Actions(driver);
 		

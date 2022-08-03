@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -111,10 +110,9 @@ public class GenerateReportFromRQM {
 
 		WebDriver driver= new ChromeDriver(options);
 		
-		WebDriverWait wait= new WebDriverWait (driver, 80);
-		//WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(80));
+		WebDriverWait wait= new WebDriverWait (driver, Duration.ofSeconds(80L));
 
-		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
 		String currentWindow = driver.getWindowHandle();
 

@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -81,7 +82,7 @@ public class RQMPathUpdate
     
     chromeDriver.manage().window().maximize();
     
-    chromeDriver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+    chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 
     try {
     	
@@ -93,7 +94,7 @@ public class RQMPathUpdate
       
       System.out.print("\n=========================================================================================\n");
       
-      WebDriverWait wait = new WebDriverWait(chromeDriver, 25000L);
+      WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(10000));
       
       chromeDriver.navigate().to("https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewTestScripts&updateAction=clear-filter-selection");
       
@@ -132,7 +133,7 @@ public class RQMPathUpdate
   public void LoginToRQM(WebDriver driver) throws IOException, InterruptedException {
     driver.get("https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewUserHome");
     
-    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
     
     System.out.print("\nEnter the User Name : ");
     String username = input.nextLine();
@@ -148,7 +149,7 @@ public class RQMPathUpdate
     
     driver.findElement(By.xpath("//button[contains(text(),'Log In')]")).click();
     
-    driver.manage().timeouts().implicitlyWait(30L, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
     
     System.out.println();
     
@@ -184,11 +185,11 @@ public class RQMPathUpdate
   public String browseTestScript(WebDriver driver, String TestScriptName) throws InterruptedException, IOException {
     String browseTScript = null;
     
-    WebDriverWait wait = new WebDriverWait(driver, 10000L);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10000L));
     
     driver.navigate().to("https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewTestScripts&updateAction=clear-filter-selection");
     
-    driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     
     Thread.sleep(2000L);
     
@@ -264,9 +265,9 @@ public class RQMPathUpdate
   }
   
   public String UpdateTestScript(WebDriver driver, String TSName) throws InterruptedException, IOException, HeadlessException, UnsupportedFlavorException {
-    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
     
-    driver.manage().timeouts().implicitlyWait(10L, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     
     String UpdateStatus = null;
     boolean DraftTScript = false;
@@ -441,7 +442,7 @@ public class RQMPathUpdate
 
   
   public void LogOutRQM(WebDriver driver) throws IOException, InterruptedException {
-    WebDriverWait wait = new WebDriverWait(driver, 25000L);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
     
     Actions builder = new Actions(driver);
     

@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -16,9 +17,13 @@ public class SSLExample {
 	@BeforeClass
 	public void setUp() {
 		//Creating new Firefox profile
-		FirefoxProfile profile = new FirefoxProfile();
-		profile.setAcceptUntrustedCertificates(true); 
-		profile.setAssumeUntrustedCertificateIssuer(false);
+		/*
+		 * FirefoxProfile profile = new FirefoxProfile();
+		 * profile.setAcceptUntrustedCertificates(true);
+		 * profile.setAssumeUntrustedCertificateIssuer(false);
+		 */
+		FirefoxOptions profile= new FirefoxOptions();
+		profile.setAcceptInsecureCerts(true);
 		System.setProperty("webdriver.gecko.driver", "D:/eclipse-workspace/Automation/geckodriver.exe");
 		driver = new FirefoxDriver(profile); 
 		driver.manage().window().maximize();
