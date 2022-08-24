@@ -1,4 +1,5 @@
 package learnSelenium;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -14,7 +15,7 @@ public static void main(String[] args) throws InterruptedException {
 	String str,str1,str2,str3,value,value1,value2,value3;
 	System.setProperty("webdriver.chrome.driver", "./Exe/chromedriver.exe ");
     WebDriver driver=new ChromeDriver();
-    driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     driver.manage().window().maximize();
     driver.get("http://acumoney.win");
     driver.findElement(By.id("username")).sendKeys("somasreddy");;
@@ -22,15 +23,15 @@ public static void main(String[] args) throws InterruptedException {
     driver.findElement(By.name("button")).click();;
     driver.findElement(By.xpath("//*[@value='START WATCHING PAYED ADS']")).click();
     while(count<=1523) {
-    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     str =driver.findElement(By.xpath(".//*[@id='cimg1']/img")).getAttribute("src");
     str1=driver.findElement(By.xpath(".//*[@id='cimg2']/img")).getAttribute("src");
     str2=driver.findElement(By.xpath(".//*[@id='cimg3']/img")).getAttribute("src");
     str3=driver.findElement(By.xpath(".//*[@id='cimg4']/img")).getAttribute("src");
-    value  = CharMatcher.DIGIT.retainFrom(str);
-    value1 = CharMatcher.DIGIT.retainFrom(str1);
-    value2 = CharMatcher.DIGIT.retainFrom(str2);
-    value3 = CharMatcher.DIGIT.retainFrom(str3); 
+    value  = CharMatcher.ascii().retainFrom(str);
+    value1 = CharMatcher.ascii().retainFrom(str1);
+    value2 = CharMatcher.ascii().retainFrom(str2);
+    value3 = CharMatcher.ascii().retainFrom(str3); 
     WebElement e=driver.findElement(By.xpath("//input[@type='text']"));
     e.sendKeys(value+value1+value2+value3);
     Thread.sleep(0);

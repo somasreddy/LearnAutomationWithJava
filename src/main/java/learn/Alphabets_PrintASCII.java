@@ -1,6 +1,6 @@
 package learn;
 
-public class Alphabets_Print {
+public class Alphabets_PrintASCII {
 	public static void main(String[] args) {
 		char ch=0;
 		while(ch<150){
