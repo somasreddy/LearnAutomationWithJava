@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 public class DataProviderTest extends GetDataFromExcel {
 
 	@DataProvider
-	public Object[][] getExcelData() throws FileNotFoundException, IOException {
+	public Object[][] getExcelData() throws FileNotFoundException, IOException  {
 		return getDataFromXL("Details");
 	}
 

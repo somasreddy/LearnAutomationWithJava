@@ -23,8 +23,13 @@ public class GetDataFromExcel {
 	static Sheet sheet;
 
 	public static Object[][] getDataFromXL(String sheetName) throws FileNotFoundException,IOException{
-		FileInputStream file = new FileInputStream(ExcelPath);
+		FileInputStream file = null;
+		try {
+			file = new FileInputStream(ExcelPath);	
+		}catch(FileNotFoundException fe) {}
+		try {
 		book = WorkbookFactory.create(file);
+		}catch(IOException ioe) {}
 		sheet = book.getSheet(sheetName);
 		Object[][] data = new Object[sheet.getLastRowNum()][sheet.getRow(0).getLastCellNum()];
 		for (int i = 0; i < sheet.getLastRowNum(); i++) {
