@@ -37,7 +37,7 @@ public class ArrayListEx {
 		System.out.println(maxValue(arr));
 		System.out.println(minValue(arr));
 		
-		ArrayList<Integer> alst = new ArrayList<>();
+		ArrayList<Integer> alst = new ArrayList<>(5);
 		for (int j = 0; j < arr.length; j++) {
 			alst.add(arr[j]);
 		}
