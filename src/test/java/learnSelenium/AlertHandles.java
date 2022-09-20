@@ -1,10 +1,12 @@
 package learnSelenium;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 //impsort org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -15,8 +17,9 @@ public class AlertHandles {
 		// WebDriver driver=new ChromeDriver();
 		WebDriver driver = new FirefoxDriver();
 		driver.get("https://www.irctc.co.in");
-		driver.manage().timeouts().implicitlyWait(5000, TimeUnit.SECONDS);
-		driver.findElement(By.id("loginbutton")).click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5000));
+		WebElement e=driver.findElement(By.id("loginbutton"));
+		e.click();
 		Alert alert = driver.switchTo().alert();
 		System.out.println(alert.getText());
 		alert.accept();
