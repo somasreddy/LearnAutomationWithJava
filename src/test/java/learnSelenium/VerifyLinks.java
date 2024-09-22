@@ -44,7 +44,8 @@ public class VerifyLinks {
 	{
         try 
         {
-           URL url = new URL(linkUrl);
+           @SuppressWarnings("deprecation")
+	URL url = new URL(linkUrl);
            
            HttpURLConnection httpURLConnect=(HttpURLConnection)url.openConnection();
            

@@ -1,7 +1,6 @@
 package learn;
 
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class NumberToWord {
 	static String tons[]= {"Hundred","Thousand","Lakhs","Crores"};

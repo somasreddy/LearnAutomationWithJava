@@ -4,6 +4,7 @@ public class NullPointException {
 	
 	
 	
+	@SuppressWarnings("null")
 	public static void main(String[] args) {
 		NullPointException t=null;
 		t.foo("Hi");

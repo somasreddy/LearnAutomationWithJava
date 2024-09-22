@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;

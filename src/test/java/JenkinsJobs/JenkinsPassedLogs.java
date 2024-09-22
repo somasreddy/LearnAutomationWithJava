@@ -27,10 +27,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.HttpCommandExecutor;
-import org.openqa.selenium.remote.RemoteWebDriver;
 public class JenkinsPassedLogs {
 	static String Jenkins_Link="http://w1752330.northamerica.cerner.net:8080/view/1501DEPM_DWK/";
 	static String downloadFilepath = "C:\\Users\\VS065203\\Downloads\\PAP_Passed";

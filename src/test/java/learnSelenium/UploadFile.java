@@ -1,6 +1,6 @@
 package learnSelenium;
+import java.time.Duration;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -38,11 +38,11 @@ public class UploadFile {
 	    // Switching to Parent window i.e Main Window.
 	    driver.switchTo().window(mw);
 	    driver.findElement(By.xpath(".//*[@id='login_Layer']/div")).click();
-		driver.manage().timeouts().implicitlyWait(15,TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.findElement(By.xpath("//input[@id='eLoginNew'] | //input[@id='eLogin']")).sendKeys("somasekhar.r@outlook.com");;
 		driver.findElement(By.xpath("//input[@id='pLogin'] | //input[@name='PASSWORD']")).sendKeys("naniki143");
 		driver.findElement(By.xpath("//button[@value='Login'] |//button[@value='Login']")).click();
-		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 	    driver.findElement(By.xpath("//a[.='UPDATE PROFILE']")).click();
 	    Thread.sleep(3000);
 	    /* ((JavascriptExecutor)driver).executeScript("window.scrollBy(0,2000)");

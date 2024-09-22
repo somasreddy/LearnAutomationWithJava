@@ -1,8 +1,7 @@
 package learnSelenium;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -16,8 +15,8 @@ public static void main(String[] args) {
 	WebDriver driver=new ChromeDriver();
 	/*System.setProperty("webdriver.gecko.driver", "./Exe/geckodriver.exe ");
 	WebDriver driver=new FirefoxDriver();*/
-	driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-	driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+	driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 	driver.manage().window().maximize();
     driver.get("www.axisbank.com");
     

@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,8 +42,6 @@ public class UpdateTCWithRQMLinks {
 	public String GetDataFromExcel(Workbook wb, String Sheet, int Row, int Col) { return wb.getSheet(sheetName).getRow(Row).getCell(Col).toString(); }
 	  
 public static void main(String[] args) throws IOException, InvalidFormatException {
-	
-	HashSet hs= new HashSet<String>();
 	
 	UpdateTCWithRQMLinks utc = new UpdateTCWithRQMLinks();
 		  
@@ -147,8 +144,6 @@ public String UpdateFile(String Path,String TCName,String RQMLink) throws IOExce
 	            System.out.println("\n----------------------------------\n");
 	  	      	
 	            String newLine=oldLine+"\n"+"RQM test case link: "+ RQMLink;
-	            
-	            String newLine1="#RQM test case link: "+RQMLink+"\n"+oldLine;
 	            
 	            setVariable(filePath,lineNum,newLine);
 	            

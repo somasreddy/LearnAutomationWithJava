@@ -1,7 +1,5 @@
 package Test;
 
-import java.awt.print.Printable;
-
 public class AllPermutations {
 
 	

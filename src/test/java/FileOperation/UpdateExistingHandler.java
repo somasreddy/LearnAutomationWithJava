@@ -121,12 +121,13 @@ public class UpdateExistingHandler {
 		// Replacing the old line with new line
 		fileContents = fileContents.replaceAll("(?i)" + oldLine.toLowerCase(), newLine);
 
-		// instantiating the FileWriter class
-		FileWriter writer = new FileWriter(new File(fileName));
-		// System.out.println("");
-		// System.out.println("new data: "+fileContents);
-		writer.append(fileContents);
-		writer.flush();
+		try (// instantiating the FileWriter class
+		FileWriter writer = new FileWriter(new File(fileName))) {
+		    // System.out.println("");
+		    // System.out.println("new data: "+fileContents);
+		    writer.append(fileContents);
+		    writer.flush();
+		}
 	}
 
 	public static List<String> getFilesInDir(String dirPath) throws IOException {

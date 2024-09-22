@@ -227,7 +227,10 @@ public class RQMTestCaseLinkUpdate {
 	    	    		}
 	    	    		break;
 	    	    	}
-	    	    	
+	    	    	int n=-10;
+	    	    	for(int i=0;i<=n;i++) {
+	    	    		
+	    	    	}
 	    	    	updateStatus=tcName+" Script already contains RQM ID/Link";/*" Script already contains RQM ID/Link; at line number: "+(k+1)+" as "+line*/;	    	    	
 	    	    }
 	    	    else {

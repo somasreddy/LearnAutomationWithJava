@@ -1,11 +1,10 @@
 package RQMLinks;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -24,7 +23,7 @@ public class GetJobsFromGit {
 		  ChromeOptions options = new ChromeOptions();
 		  options.addArguments("headless");
   	  	  WebDriver driver=new ChromeDriver(options);          
-          driver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+  	  	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
           String gitLink;
           Scanner input = new Scanner(System.in);
           System.out.print("\nEnter the github Link :");
