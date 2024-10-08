@@ -28,9 +28,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-
 /**
  * 
  */
@@ -65,7 +62,6 @@ public class GetRQMReport {
 	wb = WorkbookFactory.create(inputFile);
 	int LastRow = wb.getSheet(sheetName).getLastRowNum();
 	System.out.print("Total Number of TestPlans in excel : " + LastRow + "\n\n");
-	WebDriverManager.chromedriver().setup();
 	ChromeOptions options = new ChromeOptions();
 	HashMap<String, Object> chromePrefs = new HashMap<>();
 	chromePrefs.put("profile.default_content_settings.popups", Integer.valueOf(0));
@@ -79,7 +75,7 @@ public class GetRQMReport {
 	options.addArguments(new String[] { "--disable-gpu" });
 	options.setExperimentalOption("prefs", chromePrefs);
 	ChromeOptions cap = new ChromeOptions();
-	//		DesiredCapabilities cap = DesiredCapabilities.chrome();
+	// DesiredCapabilities cap = DesiredCapabilities.chrome();
 	cap.setCapability("acceptSslCerts", true);
 	cap.setCapability("goog:chromeOptions", options);
 	ChromeDriver chromeDriver = new ChromeDriver(options);
@@ -180,7 +176,7 @@ public class GetRQMReport {
 	} catch (Exception e) {
 	    driver.findElement(By.xpath(
 		    "//span/button[@name='This is Test Plans table Clear Filter Text']/img[@alt='Clear Filter Text']"))
-	    .click();
+		    .click();
 	}
 	if (filterSearchTB != null) {
 	    filterSearchTB.clear();
@@ -189,7 +185,7 @@ public class GetRQMReport {
 	} else {
 	    driver.findElement(By.xpath(
 		    "//span/button[@name='This is Test Plans table Clear Filter Text']/img[@alt='Clear Filter Text']"))
-	    .click();
+		    .click();
 	    filterSearchTB = driver.findElement(By.xpath("//span/input[@title='Type Filter Text or ID']"));
 	    filterSearchTB.clear();
 	    filterSearchTB.click();
@@ -282,4 +278,3 @@ public class GetRQMReport {
 	}
     }
 }
-

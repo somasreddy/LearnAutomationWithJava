@@ -45,8 +45,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class JenkinsLogLink {
     static String Envi2 = "_S18VX";
     static String Envi1 = "EP_";
@@ -63,7 +61,6 @@ public class JenkinsLogLink {
 
     public static void main(String[] args)
 	    throws InterruptedException, ParseException, InvalidFormatException, IOException {
-	WebDriverManager.chromedriver().setup();
 	ChromeOptions options = new ChromeOptions();
 	HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
 	chromePrefs.put("profile.default_content_settings.popups", 0);
@@ -124,19 +121,19 @@ public class JenkinsLogLink {
 				    driver.switchTo().window(childWindow);
 				    if (Environment == "EggPlant") {
 					driver.findElement(By.xpath("//td/a[.='Last Successful Artifacts']")).click();
-//	 		        		BuildName=driver.findElement(By.xpath("//a[contains(text(),'"+Environment+" -')]")).getText();
+					//	 		        		BuildName=driver.findElement(By.xpath("//a[contains(text(),'"+Environment+" -')]")).getText();
 					driver.findElement(
 						By.xpath("//a[@href='./*zip*/archive.zip']/../../../../tr/td/a"))
-						.click();
+					.click();
 					driver.findElement(By.xpath(
 						"//td/img[@class='icon-folder icon-sm']/../following-sibling::td"))
-						.click();
+					.click();
 					driver.findElement(
 						By.xpath("//a[.='RunHistory.csv']/../../preceding-sibling::tr/td/a"))
-						.click();
+					.click();
 					BuildName = driver.findElement(By.xpath("//a[@href='./']")).getText();
 					driver.findElement(By.xpath("//div/a/img[@class='icon-package icon-sm']/.."))
-						.click();
+					.click();
 					File file = new File(downloadFilepath + "\\" + BuildName + ".zip");
 					while (!file.exists()) {
 					    Thread.sleep(1000);
@@ -208,7 +205,7 @@ public class JenkinsLogLink {
 	try (Workbook wb = new XSSFWorkbook()) {
 	    sheet = wb.createSheet(sheetName);
 	    Font headerFont = wb.createFont();
-//      headerFont.setBold(true);
+	    //      headerFont.setBold(true);
 	    headerFont.setFontHeightInPoints((short) 14);
 	    headerFont.setColor(IndexedColors.RED.getIndex());
 	    CellStyle headerCellStyle = wb.createCellStyle();
@@ -246,7 +243,7 @@ public class JenkinsLogLink {
 		FileOutputStream outFile = new FileOutputStream(new File(downloadFilepath + "\\" + fileName + ".xlsx"));
 		workbook.write(outFile);
 		outFile.close();
-//            autoSizeColumns(workbook);
+		//            autoSizeColumns(workbook);
 	    }
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
@@ -276,7 +273,7 @@ public class JenkinsLogLink {
 		FileOutputStream outFile = new FileOutputStream(new File(downloadFilepath + "\\" + fileName + ".xlsx"));
 		workbook.write(outFile);
 		outFile.close();
-//            autoSizeColumns(workbook);
+		//            autoSizeColumns(workbook);
 	    }
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();

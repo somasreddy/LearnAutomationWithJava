@@ -16,14 +16,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class ModifyJobs {
 	 public static void main(String[] args) throws Exception {
 		    Scanner in = new Scanner(System.in);
 		    System.out.print("Please Enter the Jenkins Link : ");
 		    String Jenkins_Link = in.nextLine();
-		    WebDriverManager.chromedriver().setup();
 		    WebDriver chromeDriver = new ChromeDriver();
 		    chromeDriver.navigate().to(Jenkins_Link);
 		    chromeDriver.manage().window().maximize();

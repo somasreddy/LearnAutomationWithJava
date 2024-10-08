@@ -18,8 +18,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class ConnectToCitrix {
 	
 	static WebDriver driver;
@@ -47,9 +45,7 @@ public class ConnectToCitrix {
 		    
 		//capabilities.setCapability("chromeOptions", options);
 		
-		WebDriverManager.chromedriver().setup();
-		WebDriverManager.firefoxdriver().setup();
-		    
+
 		driver= new ChromeDriver(options);
 //		driver = new FirefoxDriver();
 		

@@ -26,323 +26,319 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class GetRQM_TCLinks {
 
-	static String sheetName = null;
+    static String sheetName = null;
 
-	static String filePath = null;
+    static String filePath = null;
 
-	static String username = null;
+    static String username = null;
 
-	static String password = null;
+    static String password = null;
 
-	static Workbook wb = null;
+    static Workbook wb = null;
 
-	static Scanner input = new Scanner(System.in);
+    static Scanner input = new Scanner(System.in);
 
-	public void LoginToRQM(WebDriver driver) throws IOException, InterruptedException {
+    public void LoginToRQM(WebDriver driver) throws IOException, InterruptedException {
 
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-		driver.get(
-				"https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewUserHome");
+	driver.get(
+		"https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewUserHome");
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 
-		System.out.print("\nEnter the User Name : ");
+	System.out.print("\nEnter the User Name : ");
 
-		String username = input.nextLine();
+	String username = input.nextLine();
 
-		WebElement usernameTxtBx = (WebElement) wait.until(
-				ExpectedConditions.elementToBeClickable(By.cssSelector("input[id*='userId'][name*='username']")));
+	WebElement usernameTxtBx = (WebElement) wait.until(
+		ExpectedConditions.elementToBeClickable(By.cssSelector("input[id*='userId'][name*='username']")));
 
-		usernameTxtBx.sendKeys(new CharSequence[] { username });
+	usernameTxtBx.sendKeys(new CharSequence[] { username });
 
-		Console console = System.console();
+	Console console = System.console();
 
-		char[] password = console.readPassword("Enter your password :");
+	char[] password = console.readPassword("Enter your password :");
 
-		WebElement pswrdTxtBx = (WebElement) wait
-				.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='j_password']")));
+	WebElement pswrdTxtBx = (WebElement) wait
+		.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='j_password']")));
 
-		pswrdTxtBx.sendKeys(new String(password));
+	pswrdTxtBx.sendKeys(new String(password));
 
-		driver.findElement(By.name("rememberUserId")).click();
+	driver.findElement(By.name("rememberUserId")).click();
 
-		driver.findElement(By.xpath("//button[contains(text(),'Log In')]")).click();
+	driver.findElement(By.xpath("//button[contains(text(),'Log In')]")).click();
 
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
 
-		System.out.println();
+	System.out.println();
 
-		Thread.sleep(10000L);
+	Thread.sleep(10000L);
 
-		System.out.println("SuccessFully Logged in to RQM ");
+	System.out.println("SuccessFully Logged in to RQM ");
 
-		System.out.println();
+	System.out.println();
+    }
+
+    public String getTestCaseLink(WebDriver driver, String TestCaseName) throws InterruptedException, IOException {
+
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30000L));
+
+	JavascriptExecutor executor = (JavascriptExecutor) driver;
+
+	WebElement nameTxtbox = driver.findElement(By.xpath("//input[@name='name' and @type='text']"));
+
+	executor.executeScript("arguments[0].click();", nameTxtbox);
+
+	Thread.sleep(1500);
+
+	nameTxtbox.clear();
+
+	nameTxtbox.sendKeys(new CharSequence[] { TestCaseName });
+
+	Thread.sleep(2500);
+
+	WebElement runButton = (WebElement) wait
+		.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='run']")));
+
+	runButton.click();
+
+	Thread.sleep(2500L);
+
+	String testCaseLink = null;
+
+	WebElement TestCase = null;
+
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(25));
+
+	try {
+
+	    TestCase = driver.findElement(By.xpath("//a/div[.='" + TestCaseName + "']"));
+
+	} catch (Exception nse) {
+
+	    testCaseLink = "No Match Found in RQM with the given Name : " + TestCaseName;
+
+	    driver.navigate().to(
+		    "https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewTestCases&updateAction=clear-filter-selection");
+
 	}
+	if (TestCase != null) {
 
-	public String getTestCaseLink(WebDriver driver, String TestCaseName) throws InterruptedException, IOException {
+	    testCaseLink = driver.findElement(By.xpath("//a/div[.='" + TestCaseName + "']/..")).getAttribute("href");
 
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	    Thread.sleep(2500L);
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30000L));
+	    nameTxtbox.clear();
+	}
+	return testCaseLink;
 
-		JavascriptExecutor executor = (JavascriptExecutor) driver;
+    }
 
-		WebElement nameTxtbox = driver.findElement(By.xpath("//input[@name='name' and @type='text']"));
+    public static void main(String[] args) throws InvalidFormatException, IOException, InterruptedException {
 
-		executor.executeScript("arguments[0].click();", nameTxtbox);
+	System.out.print("Enter the Excel Path : ");
 
-		Thread.sleep(1500);
+	filePath = input.nextLine();
 
-		nameTxtbox.clear();
+	System.out.println();
 
-		nameTxtbox.sendKeys(new CharSequence[] { TestCaseName });
+	System.out.print("Enter the SheetName : ");
 
-		Thread.sleep(2500);
+	sheetName = input.nextLine();
 
-		WebElement runButton = (WebElement) wait
-				.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='run']")));
+	System.out.println();
 
-		runButton.click();
+	FileInputStream inputFile = new FileInputStream(filePath);
 
-		Thread.sleep(2500L);
+	wb = WorkbookFactory.create(inputFile);
 
-		String testCaseLink = null;
+	int LastRow = wb.getSheet(sheetName).getLastRowNum();
 
-		WebElement TestCase = null;
+	System.out.print("Total Number of Scripts in excel : " + LastRow + "\n\n");
 
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(25));
+	GetRQM_TCLinks gtcl = new GetRQM_TCLinks();
+
+	WebDriver chromeDriver = new ChromeDriver();
+
+	String currentWindow = chromeDriver.getWindowHandle();
+
+	chromeDriver.switchTo().window(currentWindow);
+
+	chromeDriver.manage().window().maximize();
+
+	chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+
+	try {
+
+	    gtcl.LoginToRQM(chromeDriver);
+
+	    System.out.print("Enter the Starting Point : ");
+
+	    int startPoint = Integer.parseInt(input.nextLine());
+
+	    System.out.print(
+		    "\n=========================================================================================\n");
+
+	    WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(25000L));
+
+	    for (int i = startPoint; i <= LastRow; i++) {
+
+		JavascriptExecutor executor = (JavascriptExecutor) chromeDriver;
+
+		WebElement tcNameTB = null;
 
 		try {
 
-			TestCase = driver.findElement(By.xpath("//a/div[.='" + TestCaseName + "']"));
+		    chromeDriver.get(
+			    "https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewTestCases&updateAction=clear-filter-selection");
 
-		} catch (Exception nse) {
+		    Thread.sleep(4000);
 
-			testCaseLink = "No Match Found in RQM with the given Name : " + TestCaseName;
-
-			driver.navigate().to(
-					"https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewTestCases&updateAction=clear-filter-selection");
-
-		}
-		if (TestCase != null) {
-
-			testCaseLink = driver.findElement(By.xpath("//a/div[.='" + TestCaseName + "']/..")).getAttribute("href");
-
-			Thread.sleep(2500L);
-
-			nameTxtbox.clear();
-		}
-		return testCaseLink;
-
-	}
-
-	public static void main(String[] args) throws InvalidFormatException, IOException, InterruptedException {
-
-		System.out.print("Enter the Excel Path : ");
-
-		filePath = input.nextLine();
-
-		System.out.println();
-
-		System.out.print("Enter the SheetName : ");
-
-		sheetName = input.nextLine();
-
-		System.out.println();
-
-		FileInputStream inputFile = new FileInputStream(filePath);
-
-		wb = WorkbookFactory.create(inputFile);
-
-		int LastRow = wb.getSheet(sheetName).getLastRowNum();
-
-		System.out.print("Total Number of Scripts in excel : " + LastRow + "\n\n");
-
-		GetRQM_TCLinks gtcl = new GetRQM_TCLinks();
-
-		WebDriverManager.chromedriver().setup();
-
-		WebDriver chromeDriver = new ChromeDriver();
-
-		String currentWindow = chromeDriver.getWindowHandle();
-
-		chromeDriver.switchTo().window(currentWindow);
-
-		chromeDriver.manage().window().maximize();
-
-		chromeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-
-		try {
-
-			gtcl.LoginToRQM(chromeDriver);
-
-			System.out.print("Enter the Starting Point : ");
-
-			int startPoint = Integer.parseInt(input.nextLine());
-
-			System.out.print(
-					"\n=========================================================================================\n");
-
-			WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(25000L));
-
-			for (int i = startPoint; i <= LastRow; i++) {
-
-				JavascriptExecutor executor = (JavascriptExecutor) chromeDriver;
-
-				WebElement tcNameTB = null;
-
-				try {
-
-					chromeDriver.get(
-							"https://jazz.cerner.com:9443/qm/web/console/IP#action=com.ibm.rqm.planning.home.actionDispatcher&subAction=viewTestCases&updateAction=clear-filter-selection");
-
-					Thread.sleep(4000);
-
-					tcNameTB = chromeDriver.findElement(By.xpath("//input[@name='name' and @type='text']"));
-
-				} catch (Exception e) {
-
-					if (tcNameTB != null) {
-
-						if (tcNameTB.isDisplayed()) {
-
-							executor.executeScript("arguments[0].click();", tcNameTB);
-						} else {
-
-							WebElement expandFilter = (WebElement) wait.until(ExpectedConditions
-									.elementToBeClickable(By.xpath("//img[@alt='Show/Hide Table Inline Filters']")));
-
-							expandFilter.click();
-
-							Thread.sleep(2500);
-						}
-					} else {
-						WebElement expandFilter = (WebElement) wait.until(ExpectedConditions
-								.elementToBeClickable(By.xpath("//img[@alt='Show/Hide Table Inline Filters']")));
-
-						expandFilter.click();
-
-						Thread.sleep(2500);
-					}
-				}
-
-				String testCaseName = gtcl.GetTCFromExcel(wb, sheetName, i);
-
-				String testCaseLink = gtcl.getTestCaseLink(chromeDriver, testCaseName);
-
-				System.out.print("\n" + String.valueOf(i) + " . " + testCaseName + " ----> " + testCaseLink + "\n");
-
-				gtcl.writeToExcelFile(filePath, sheetName, testCaseLink, i, 1);
-
-			}
-
-			input.close();
-
-			gtcl.LogOutRQM(chromeDriver);
-
-			gtcl.KillChromeDriver();
+		    tcNameTB = chromeDriver.findElement(By.xpath("//input[@name='name' and @type='text']"));
 
 		} catch (Exception e) {
 
-			e.printStackTrace();
+		    if (tcNameTB != null) {
 
-			chromeDriver.quit();
+			if (tcNameTB.isDisplayed()) {
 
-			gtcl.KillChromeDriver();
-		}
-	}
+			    executor.executeScript("arguments[0].click();", tcNameTB);
+			} else {
 
-	public String GetTCFromExcel(Workbook wb, String Sheet, int Row) {
-		return wb.getSheet(sheetName).getRow(Row).getCell(0).toString();
-	}
+			    WebElement expandFilter = (WebElement) wait.until(ExpectedConditions
+				    .elementToBeClickable(By.xpath("//img[@alt='Show/Hide Table Inline Filters']")));
 
-	public void writeToExcelFile(String filePath, String sheetName, Object DatatoWrite, int row, int col)
-			throws IOException {
-		try {
-			FileInputStream file = new FileInputStream(new File(String.valueOf(filePath)));
-			XSSFWorkbook workbook = new XSSFWorkbook(file);
-			XSSFSheet sheet = workbook.getSheet(sheetName);
-			XSSFRow sheetrow = sheet.getRow(row);
-			if (sheetrow == null) {      
-				sheetrow = sheet.createRow(row);
+			    expandFilter.click();
+
+			    Thread.sleep(2500);
 			}
-			XSSFCell xSSFCell = sheetrow.getCell(col);
-			if (xSSFCell == null) {
-				xSSFCell = sheetrow.createCell(col);
-			}
-			xSSFCell.setCellValue(DatatoWrite.toString());
-			file.close();
-			FileOutputStream outFile = new FileOutputStream(new File(String.valueOf(filePath)));
-			workbook.write(outFile);
-			outFile.close();
-			workbook.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		    } else {
+			WebElement expandFilter = (WebElement) wait.until(ExpectedConditions
+				.elementToBeClickable(By.xpath("//img[@alt='Show/Hide Table Inline Filters']")));
+
+			expandFilter.click();
+
+			Thread.sleep(2500);
+		    }
 		}
+
+		String testCaseName = gtcl.GetTCFromExcel(wb, sheetName, i);
+
+		String testCaseLink = gtcl.getTestCaseLink(chromeDriver, testCaseName);
+
+		System.out.print("\n" + String.valueOf(i) + " . " + testCaseName + " ----> " + testCaseLink + "\n");
+
+		gtcl.writeToExcelFile(filePath, sheetName, testCaseLink, i, 1);
+
+	    }
+
+	    input.close();
+
+	    gtcl.LogOutRQM(chromeDriver);
+
+	    gtcl.KillChromeDriver();
+
+	} catch (Exception e) {
+
+	    e.printStackTrace();
+
+	    chromeDriver.quit();
+
+	    gtcl.KillChromeDriver();
 	}
+    }
 
-	public void LogOutRQM(WebDriver driver) throws IOException, InterruptedException {
+    public String GetTCFromExcel(Workbook wb, String Sheet, int Row) {
+	return wb.getSheet(sheetName).getRow(Row).getCell(0).toString();
+    }
 
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
-
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
-
-		Actions builder = new Actions(driver);
-
-		System.out.println("Logging Out...");
-
-		Thread.sleep(5000L);
-
-		builder.sendKeys(new CharSequence[] { Keys.PAGE_UP }).build().perform();
-
-		Thread.sleep(5000L);
-
-		builder.sendKeys(new CharSequence[] { Keys.PAGE_UP }).build().perform();
-
-		Thread.sleep(5000L);
-
-		WebElement logoutbtn = (WebElement) wait.until(
-				ExpectedConditions.elementToBeClickable(By.cssSelector("span[class='caret jazz-ui-MenuPopup-caret']")));
-
-		logoutbtn.click();
-
-		Thread.sleep(15000L);
-
-		WebElement logout = (WebElement) wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
-				"//span[@data-dojo-attach-point='containerNode'][contains(@id,'text')][contains(.,'Log Out')]")));
-
-		logout.click();
-
-		System.out.println("Logged Out Successfully");
-
-		System.out.println();
-
-		driver.quit();
+    public void writeToExcelFile(String filePath, String sheetName, Object DatatoWrite, int row, int col)
+	    throws IOException {
+	try {
+	    FileInputStream file = new FileInputStream(new File(String.valueOf(filePath)));
+	    XSSFWorkbook workbook = new XSSFWorkbook(file);
+	    XSSFSheet sheet = workbook.getSheet(sheetName);
+	    XSSFRow sheetrow = sheet.getRow(row);
+	    if (sheetrow == null) {
+		sheetrow = sheet.createRow(row);
+	    }
+	    XSSFCell xSSFCell = sheetrow.getCell(col);
+	    if (xSSFCell == null) {
+		xSSFCell = sheetrow.createCell(col);
+	    }
+	    xSSFCell.setCellValue(DatatoWrite.toString());
+	    file.close();
+	    FileOutputStream outFile = new FileOutputStream(new File(String.valueOf(filePath)));
+	    workbook.write(outFile);
+	    outFile.close();
+	    workbook.close();
+	} catch (FileNotFoundException e) {
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
+    }
 
-	public void KillChromeDriver() {
-		try {
-			System.out.println("Kill Chrome Driver");
+    public void LogOutRQM(WebDriver driver) throws IOException, InterruptedException {
 
-			Runtime.getRuntime().exec("taskkill /f /im chromedriver.exe");
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30L));
 
-			Thread.sleep(2000L);
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25000L));
 
-			Runtime.getRuntime().exec("taskkill /f /im ruby.exe");
+	Actions builder = new Actions(driver);
 
-			Thread.sleep(1000L);
+	System.out.println("Logging Out...");
 
-			System.exit(0);
-		} catch (Exception e) {
+	Thread.sleep(5000L);
 
-			e.printStackTrace();
-		}
+	builder.sendKeys(new CharSequence[] { Keys.PAGE_UP }).build().perform();
+
+	Thread.sleep(5000L);
+
+	builder.sendKeys(new CharSequence[] { Keys.PAGE_UP }).build().perform();
+
+	Thread.sleep(5000L);
+
+	WebElement logoutbtn = (WebElement) wait.until(
+		ExpectedConditions.elementToBeClickable(By.cssSelector("span[class='caret jazz-ui-MenuPopup-caret']")));
+
+	logoutbtn.click();
+
+	Thread.sleep(15000L);
+
+	WebElement logout = (WebElement) wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+		"//span[@data-dojo-attach-point='containerNode'][contains(@id,'text')][contains(.,'Log Out')]")));
+
+	logout.click();
+
+	System.out.println("Logged Out Successfully");
+
+	System.out.println();
+
+	driver.quit();
+    }
+
+    public void KillChromeDriver() {
+	try {
+	    System.out.println("Kill Chrome Driver");
+
+	    Runtime.getRuntime().exec("taskkill /f /im chromedriver.exe");
+
+	    Thread.sleep(2000L);
+
+	    Runtime.getRuntime().exec("taskkill /f /im ruby.exe");
+
+	    Thread.sleep(1000L);
+
+	    System.exit(0);
+	} catch (Exception e) {
+
+	    e.printStackTrace();
 	}
+    }
 }

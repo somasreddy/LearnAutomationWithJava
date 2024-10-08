@@ -20,7 +20,6 @@ public class BrokenLinks {
 
     @SuppressWarnings("deprecation")
     public static void main(String[] args) {
-	System.setProperty("webdriver.chrome.driver", "./Exe/chromedriver.exe ");
 	String homePage = "http://www.zlti.com";
 	String url = "";
 	HttpURLConnection huc = null;

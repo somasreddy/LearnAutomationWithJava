@@ -23,8 +23,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class GetJobsFromJenkinsLink {
 
 	  static String sheetName = null;
@@ -61,9 +59,6 @@ public class GetJobsFromJenkinsLink {
 	 	    int LastRow = wb.getSheet(sheetName).getLastRowNum();
 	 	    
 	 	    System.out.print("Total Number of Scripts in excel : " + LastRow + "\n\n");
-	 	    
-	 	    WebDriverManager.chromedriver().setup();
-	        
 	 	    ChromeOptions options = new ChromeOptions();
 	 	   
 	 	    options.addArguments("headless");

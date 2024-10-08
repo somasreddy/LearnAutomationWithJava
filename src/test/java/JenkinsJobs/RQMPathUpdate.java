@@ -31,8 +31,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class RQMPathUpdate
 {
   static String sheetName = null;
@@ -70,8 +68,7 @@ public class RQMPathUpdate
     System.out.print("Total Number of Scripts in excel : " + LastRow + "\n\n");
     
     RQMPathUpdate rtsp = new RQMPathUpdate();
-    
-    WebDriverManager.chromedriver().setup();
+
         
     WebDriver chromeDriver = new ChromeDriver();
     
