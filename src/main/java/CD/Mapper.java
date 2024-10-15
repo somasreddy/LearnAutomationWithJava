@@ -1,10 +1,5 @@
 package CD;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.time.Duration;
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -13,153 +8,149 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.time.Duration;
+import java.util.List;
+
 public class Mapper {
     @Test
     public static void main(String[] args) throws ParseException, InterruptedException {
 
 
-	ChromeOptions options = new ChromeOptions();
+        ChromeOptions options = new ChromeOptions();
 
-	options.addArguments("headless");
+        options.addArguments("headless");
 
-	WebDriver driver = new ChromeDriver(options);
+        WebDriver driver = new ChromeDriver(options);
 
-	try {
-	    driver.get(args[2]);
+        try {
+            driver.get(args[2]);
 
-	    driver.manage().window().maximize();
+            driver.manage().window().maximize();
 
-	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-	    boolean InvalidCreds = false;
+            boolean InvalidCreds = false;
 
-	    try {
-		LoginToJenkins(driver, args[0], args[1]);
+            try {
+                LoginToJenkins(driver, args[0], args[1]);
 
-		InvalidCreds = driver
-			.findElement(By.xpath("//div[@class='alert alert-danger'][.='Invalid username or password']"))
-			.isDisplayed();
-	    } catch (NoSuchElementException nse) {
-	    }
+                InvalidCreds = driver.findElement(By.xpath("//div[@class='alert alert-danger'][.='Invalid username or password']")).isDisplayed();
+            } catch (NoSuchElementException nse) {
+            }
 
-	    if (InvalidCreds == false) {
+            if (!InvalidCreds) {
 
-		boolean JobsToBuildFound = false;
+                boolean JobsToBuildFound = false;
 
-		try {
+                try {
 
-		    JobsToBuildFound = driver
-			    .findElement(By.xpath(
-				    "//tbody/tr[@class=' job-status-red']/td/a/img[@class='icon-clock icon-md']"))
-			    .isDisplayed();
-		}
+                    JobsToBuildFound = driver.findElement(By.xpath("//tbody/tr[@class=' job-status-red']/td/a/img[@class='icon-clock icon-md']")).isDisplayed();
+                } catch (NoSuchElementException nse) {
+                }
 
-		catch (NoSuchElementException nse) {
-		}
+                if (JobsToBuildFound) {
 
-		if (JobsToBuildFound == true) {
+                    List<WebElement> failedbuilds = driver.findElements(By.xpath("//tbody/tr[@class=' job-status-red']/td/a/img[@class='icon-clock icon-md']"));
 
-		    List<WebElement> failedbuilds = driver.findElements(
-			    By.xpath("//tbody/tr[@class=' job-status-red']/td/a/img[@class='icon-clock icon-md']"));
+                    for (int i = 0; i < failedbuilds.size(); i++) {
 
-		    for (int i = 0; i < failedbuilds.size(); i++) {
+                        failedbuilds.get(i).click();
 
-			failedbuilds.get(i).click();
+                        Thread.sleep(1500);
 
-			Thread.sleep(1500);
+                        String Job = failedbuilds.get(i).findElement(By.xpath("../../..")).getAttribute("id");
 
-			String Job = failedbuilds.get(i).findElement(By.xpath("../../..")).getAttribute("id");
+                        System.out.println("Retriggering - " + Job);
 
-			System.out.println("Retriggering - " + Job);
+                    }
 
-		    }
+                } else {
+                    throw new Exception("Invalid Node Link Entered");
+                }
+            } else {
 
-		} else {
-		    throw new Exception("Invalid Node Link Entered");
-		}
-	    } else {
+                throw new Exception("Invalid Credentials Passed");
+            }
+        } catch (Exception e) {
 
-		throw new Exception("Invalid Credentials Passed");
-	    }
-	} catch (Exception e) {
+            e.printStackTrace();
 
-	    e.printStackTrace();
+            KillChromeDriver(driver);
+        }
 
-	    KillChromeDriver(driver);
-	}
+        System.out.println("Triggering Completed");
 
-	System.out.println("Triggering Completed");
-
-	KillChromeDriver(driver);
+        KillChromeDriver(driver);
 
     }
 
     public static void KillChromeDriver(WebDriver driver) {
 
-	try {
+        try {
 
-	    driver.quit();
+            driver.quit();
 
-	    System.out.println("\nKilling Chrome Driver");
+            System.out.println("\nKilling Chrome Driver");
 
-	    try {
+            try {
 
-		new ProcessBuilder("taskkill", "/f", "/im", "chromedriver.exe").start().waitFor();
-		new ProcessBuilder("taskkill /f /im ruby.exe").start().waitFor();
-		System.out.println("Chromedriver process killed successfully.");
+                new ProcessBuilder("taskkill", "/f", "/im", "chromedriver.exe").start().waitFor();
+                new ProcessBuilder("taskkill /f /im ruby.exe").start().waitFor();
+                System.out.println("Chromedriver process killed successfully.");
 
-	    } catch (IOException | InterruptedException e) {
-		e.printStackTrace();
-	    }
-	    System.exit(0);
-	} catch (Exception e) {
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        } catch (Exception e) {
 
-	    e.printStackTrace();
-	}
+            e.printStackTrace();
+        }
     }
 
     public static void LoginToJenkins(WebDriver driver, String UN, String PWD) {
-	try {
-	    if (driver.findElement(By.xpath("//a[contains(text(),'Log in')]")).isDisplayed()) {
+        try {
+            if (driver.findElement(By.xpath("//a[contains(text(),'Log in')]")).isDisplayed()) {
 
-		driver.findElement(By.xpath("//a[contains(text(),'Log in')]")).click();
-	    }
-	} catch (NoSuchElementException noSuchElementException) {
-	}
+                driver.findElement(By.xpath("//a[contains(text(),'Log in')]")).click();
+            }
+        } catch (NoSuchElementException noSuchElementException) {
+        }
 
-	try {
-	    if (driver.findElement(By.xpath("//input[@id='j_username']")).isDisplayed()) {
+        try {
+            if (driver.findElement(By.xpath("//input[@id='j_username']")).isDisplayed()) {
 
-		String userName = UN;
+                String userName = UN;
 
-		driver.findElement(By.xpath("//input[@id='j_username']")).sendKeys(new CharSequence[] { userName });
+                driver.findElement(By.xpath("//input[@id='j_username']")).sendKeys(userName);
 
-		String password = PWD;
+                String password = PWD;
 
-		driver.findElement(By.xpath("//input[@placeholder='Password']"))
-			.sendKeys(new CharSequence[] { password });
+                driver.findElement(By.xpath("//input[@placeholder='Password']")).sendKeys(password);
 
-		driver.findElement(By.xpath("//div[@class='Checkbox-indicator']")).click();
+                driver.findElement(By.xpath("//div[@class='Checkbox-indicator']")).click();
 
-		driver.findElement(By.xpath("//input[@name='Submit']")).click();
-	    }
-	} catch (NoSuchElementException noSuchElementException) {
-	}
+                driver.findElement(By.xpath("//input[@name='Submit']")).click();
+            }
+        } catch (NoSuchElementException noSuchElementException) {
+        }
     }
 
     /*
      * public static void main(final String[] args) {
-     * 
+     *
      * int numberOfSimultaneousExecutions = 100;
-     * 
+     *
      * java.util.concurrent.Executor executor =
      * java.util.concurrent.Executors.newFixedThreadPool(
      * numberOfSimultaneousExecutions);
-     * 
+     *
      * for (int i = 0; i < numberOfSimultaneousExecutions; i++) {
-     * 
+     *
      * executor.execute(new Runnable() {
-     * 
+     *
      * @Override public void run() { Mapper.main(args); } }); } }
      */
 }
