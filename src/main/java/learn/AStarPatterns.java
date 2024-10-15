@@ -4,19 +4,30 @@ public class AStarPatterns {
     public static String getMethodName() {
         return Thread.currentThread().getStackTrace()[2].getMethodName();
     }
+
     public static void main(String[] args) {
-        pattern0(5);    pattern1(5);    pattern2(5);    pattern3(5);
-        pattern4(5);    pattern5(5);    pattern6(5);    pattern7(5);
-        pattern8(5);    pattern9(5);    pattern10(5);   pattern11(5);
+        pattern0(5);
+        pattern1(5);
+        pattern2(5);
+        pattern3(5);
+        pattern4(5);
+        pattern5(5);
+        pattern6(5);
+        pattern7(5);
+        pattern8(5);
+        pattern9(5);
+        pattern10(5);
+        pattern11(5);
 //        pattern12(5);      pattern13(5);      pattern14(5);      pattern15(5);
 //        pattern16(5);      pattern17(5);      pattern18(5);
     }
+
     static void pattern11(int n) {
         System.out.println(getMethodName());
         for(int row = 1; row<=2*n-1; row++) {
             int c = row>n ? 2*n-row : row;
             for(int s = 1; s<=c; s++) {
-                System.out.print(" ");
+                System.out.print("  ");
             }
             for(int col = 1; col<=c; col++) {
                 System.out.print("* ");
