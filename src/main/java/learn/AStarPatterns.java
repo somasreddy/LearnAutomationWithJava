@@ -84,11 +84,11 @@ public class AStarPatterns {
 
     static void pattern7(int n) {
         System.out.println(getMethodName());
-        for(int row = n; row>=1; row--) {
-            for(int s = 1; s<=n-row; s++) {
+        for(int row = 1; row<=n; row++) {
+            for(int s = 1; s<=row; s++) {
                 System.out.print("  ");
             }
-            for(int col = 1; col<=2*row-1; col++) {
+            for(int col = 1; col<=2*(n-row+1)-1; col++) {
                 System.out.print("* ");
             }
             System.out.println();

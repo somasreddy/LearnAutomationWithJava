@@ -1,7 +1,22 @@
 package learn;
-public class A {  
+
+import java.sql.SQLOutput;
+import java.util.Scanner;
+
+public class A {
 	public static void main(String[] args) {
-		String s="LOTUS";
+		Scanner sc=new Scanner(System.in);
+		String s=sc.nextLine();
+//		String s="LOTUS"
+		for(char c:s.toCharArray()){
+			if(!(c>'a'&&c<'z'|| c>'A'&&c<'Z')){
+				try {
+                    throw new InvalidInputException("Only String of Alphabets Allowed as Input");
+                } catch (InvalidInputException e) {
+                    e.printStackTrace();
+                }
+            }
+		}
 		for(int i=0;i<s.length();i++) {
 			for(int j=0;j<=i;j++) {
 //				System.out.print(s.charAt(j)+" ");
@@ -14,6 +29,12 @@ public class A {
 			}
 //			System.out.println();
 		}
+	}
+}
+
+class InvalidInputException extends Exception{
+	InvalidInputException(String s){
+		System.out.println(s);
 	}
 }
 		
